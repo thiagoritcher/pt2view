@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project pt2view">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+	
+	<property name="out" value="${basedir}/out" />
+	<property name="local.deploy.dir" value="C:\\bin\\pt2view" />
+	
+    <target name="create_run_jar">
+        <jar destfile="${basedir}/out/pt2view.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="br.com.ritcher.pt2view.Main"/>
+            	<attribute name="Class-Path" value=". lib/jackson-core-asl-1.9.13.jar lib/jackson-mapper-asl-1.7.7.jar lib/json-simple-1.1.1.jar"/>
+            </manifest>
+            <fileset dir="${basedir}/bin"/>
+        </jar>
+    </target>
+	
+	
+    <target name="create_zip" depends="create_run_jar">	
+    	<zip destfile="${out}/pt2view.zip" >
+    		<fileset file="${out}/pt2view.jar"/>
+    		<fileset file="${out}/pt2view.bat"/>
+    		<zipfileset prefix="lib" dir="${out}/../lib"/>
+    	</zip>
+    </target>
+	
+	<target name="deploy_local" depends="create_zip">
+		<!-- <ftp server="${ftp.server}" remotedir="${ftp.remote_dir}" userid="${ftp.user}" password="${ftp.pass}" action="mkdir" depends="no" passive="true"/> -->
+		<unzip src="${out}/pt2view.zip" dest="${local.deploy.dir}" />
+	</target>
+</project>
