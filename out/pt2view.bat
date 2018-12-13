@@ -1,1 +1,1 @@
-java -jar cifraview.jar %1
+java -jar pt2view.jar %1

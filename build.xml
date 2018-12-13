@@ -6,13 +6,26 @@
 	<property name="out" value="${basedir}/out" />
 	<property name="local.deploy.dir" value="C:\\bin\\pt2view" />
 	
+	<target name="compile">
+        <mkdir dir="${basedir}bin"/>
+        <javac srcdir="src" destdir="${basedir}bin"/>
+    </target>
+	
     <target name="create_run_jar">
-        <jar destfile="${basedir}/out/pt2view.jar" filesetmanifest="mergewithoutmain">
+    	 <jar destfile="${out}/pt2view.jar">
             <manifest>
-                <attribute name="Main-Class" value="br.com.ritcher.pt2view.Main"/>
-            	<attribute name="Class-Path" value=". lib/jackson-core-asl-1.9.13.jar lib/jackson-mapper-asl-1.7.7.jar lib/json-simple-1.1.1.jar"/>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="br.com.ritcher.pt2view.Main"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ jackson-core-asl-1.9.13.jar jackson-mapper-asl-1.7.7.jar json-simple-1.1.1.jar"/>
             </manifest>
-            <fileset dir="${basedir}/bin"/>
+            
+    	 	<zipfileset src="${basedir}/lib/jar-in-jar-loader.zip"/>
+    	 	
+            <fileset dir="${basedir}\bin"/>
+            <zipfileset dir="${basedir}\lib" includes="jackson-core-asl-1.9.13.jar"/>
+            <zipfileset dir="${basedir}\lib" includes="jackson-mapper-asl-1.7.7.jar"/>
+            <zipfileset dir="${basedir}\lib" includes="json-simple-1.1.1.jar"/>
         </jar>
     </target>
 	
